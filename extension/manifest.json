@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "Gen Con to Google Calendar",
-	"short_name": "GenCon Google Cal",
+	"short_name": "Gen Con 2 GCal",
 	"version": "0.1.0",
 	
 	"description": "Adds a button on Gen Con event pages to copy an event to your google calendar.",
@@ -12,6 +12,16 @@
 	},
 
 	"author": "Jacques Marcotte",
+
+	"page_action": {
+		"default_icon": {
+			"16": "images/icon16.png",
+			"48": "images/icon48.png",
+			"128": "images/icon128.png"
+		},
+		"default_title": "Gen Con to Google Calendar",
+		"default_popup": "popup.html"
+	},
 
 	"content_scripts": [
 		{
