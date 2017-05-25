@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Gen Con to Google Calendar",
 	"short_name": "Gen Con 2 GCal",
-	"version": "0.1.0",
+	"version": "0.2.0",
 
 	"description": "Adds a button on Gen Con event pages to copy an event to your google calendar.",
 	"icons": {

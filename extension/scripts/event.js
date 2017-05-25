@@ -6,18 +6,24 @@ const date_map = {
     'Sunday': '2017-08-20'
 };
 
-const time_zone = 'America/Indianapolis';
+const time_zone = 'America/Indiana/Indianapolis';
 const short_time_zone = 'EDT';
 
 const date_re = /^(\w+) at {2}(\d+):(\d\d) ([AP])M$/;
 const cost_re = /^\$(\d+).(\d\d)$/;
 
-function storeEvent(extension_id) {
-    var event_details = collectEventFromPage();
-    var expanded_details = expandEventDetails(event_details);
-    var event = convertEvent(expanded_details);
+function storeEvent() {
+    let event_details = collectEventFromPage();
+    let expanded_details = expandEventDetails(event_details);
+    let event_id = expanded_details['Game ID'];
+    let event = convertEvent(expanded_details);
     console.log('Collected Event', event);
-    document.dispatchEvent(new CustomEvent('Store_Event', {'detail': event}));
+    document.dispatchEvent(new CustomEvent('Store_Event', {
+        'detail': {
+            'event_details': event,
+            'event_id' : event_id
+        }
+    }));
 }
 
 function collectEventFromPage() {
@@ -55,7 +61,7 @@ function getAttributeValues(desired_attributes) {
 }
 
 function convertEvent(event_details) {
-    return {
+    let event = {
         'summary': generateEventSummary(event_details),
         'location': event_details['Location'],
         'description': generateEventDescription(event_details),
@@ -66,8 +72,14 @@ function convertEvent(event_details) {
         'end': {
             'dateTime': generateDateTime(event_details['End Date & Time']).toISOString(),
             'timeZone': time_zone
+        },
+        'extendedProperties': {
+            'shared': {}
         }
     }
+    event['extendedProperties']['shared']['gen_con_event_'+event_details['Game ID']] = 1;
+
+    return event;
 }
 
 function expandEventDetails(event_details) {
