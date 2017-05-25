@@ -12,11 +12,12 @@ const short_time_zone = 'EDT';
 const date_re = /^(\w+) at {2}(\d+):(\d\d) ([AP])M$/;
 const cost_re = /^\$(\d+).(\d\d)$/;
 
-function storeEvent() {
-    let event_details = collectEventFromPage();
-    let expanded_details = expandEventDetails(event_details);
-    let event = convertEvent(expanded_details);
-    console.log(event);
+function storeEvent(extension_id) {
+    var event_details = collectEventFromPage();
+    var expanded_details = expandEventDetails(event_details);
+    var event = convertEvent(expanded_details);
+    console.log('Collected Event', event);
+    document.dispatchEvent(new CustomEvent('Store_Event', {'detail': event}));
 }
 
 function collectEventFromPage() {
@@ -44,10 +45,10 @@ function getAttributeValues(desired_attributes) {
     let attribute_values = {};
     $('div.attr > div.name').each(function (index, element) {
         let attribute = $(element).text().trim().replace(/:$/, '').replace(/\s+/g, ' ');
-        console.log("Found " + attribute);
+        // console.log("Found " + attribute);
         if (desired_attributes.includes(attribute)) {
             attribute_values[attribute] = $(element).next().text().trim().replace(/\n/g, '');
-            console.log(attribute + ': ' + attribute_values[attribute]);
+            // console.log(attribute + ': ' + attribute_values[attribute]);
         }
     });
     return attribute_values;
@@ -59,11 +60,11 @@ function convertEvent(event_details) {
         'location': event_details['Location'],
         'description': generateEventDescription(event_details),
         'start': {
-            'dateTime': generateDateTime(event_details['Start Date & Time']),
+            'dateTime': generateDateTime(event_details['Start Date & Time']).toISOString(),
             'timeZone': time_zone
         },
         'end': {
-            'dateTime': generateDateTime(event_details['End Date & Time']),
+            'dateTime': generateDateTime(event_details['End Date & Time']).toISOString(),
             'timeZone': time_zone
         }
     }
@@ -82,8 +83,8 @@ function expandEventDetails(event_details) {
 }
 
 function generateShortTimeframe(start, end) {
-    let [,, start_hour, start_minute, start_ampm] = date_re.exec(start);
-    let [,, end_hour, end_minute, end_ampm] = date_re.exec(end);
+    let [, , start_hour, start_minute, start_ampm] = date_re.exec(start);
+    let [, , end_hour, end_minute, end_ampm] = date_re.exec(end);
     start_ampm = start_ampm.toLowerCase();
     end_ampm = end_ampm.toLowerCase();
 

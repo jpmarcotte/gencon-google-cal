@@ -3,7 +3,7 @@
 	"name": "Gen Con to Google Calendar",
 	"short_name": "Gen Con 2 GCal",
 	"version": "0.1.0",
-	
+
 	"description": "Adds a button on Gen Con event pages to copy an event to your google calendar.",
 	"icons": {
 		"16": "images/icon16.png",
@@ -13,7 +13,14 @@
 
 	"author": "Jacques Marcotte",
 
-	"page_action": {
+	"background": {
+		"scripts": [
+			"jquery-3.1.1.min.js",
+			"background.js"
+		]
+	},
+
+	"browser_action": {
 		"default_icon": {
 			"16": "images/icon16.png",
 			"48": "images/icon48.png",
@@ -23,18 +30,36 @@
 		"default_popup": "popup.html"
 	},
 
+	"content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
+
 	"content_scripts": [
 		{
-			"matches": ["*://www.gencon.com/events/*"],
-			"js": ["jquery-3.1.1.min.js", "event.js"]
+			"matches": [
+				"*://www.gencon.com/events/*"
+			],
+			"js": [
+				"jquery-3.1.1.min.js",
+				"event.js"
+			]
 		}
 	],
 
 	"homepage_url": "https://github.com/jpmarcotte/gencon-google-cal",
 	"incognito": "split",
 
+	"oauth2": {
+		"client_id": "201888764103-j2t2racjo5sa1dp4s5pbcuu1oris28ue.apps.googleusercontent.com",
+		"scopes": [
+			"https://www.googleapis.com/auth/calendar"
+		]
+	},
+
 	"permissions": [
-		"http://www.gencon.com/*"
+		"identity",
+		"storage",
+		"http://www.gencon.com/*",
+		"https://www.gencon.com/*",
+		"https://apis.google.com/*"
 	],
 
 	"web_accessible_resources": [
