@@ -1,6 +1,6 @@
 let CALENDAR_API = 'https://www.googleapis.com/calendar/v3';
 
-function createEvent(calendar_id, token, event) {
+function createEvent(calendar_id, token, event, cb) {
     $.ajax(CALENDAR_API + '/calendars/' + calendar_id + '/events', {
         'method': 'POST',
         'headers': {
@@ -9,10 +9,12 @@ function createEvent(calendar_id, token, event) {
         },
         'data': JSON.stringify(event),
         'success': function (response) {
-            console.log('Success!', response);
+            // console.log('Success!', response);
+            cb({'success': true, 'response': response});
         },
         'error': function (response) {
-            console.log('Oops...', response);
+            // console.log('Oops...', response);
+            cb({'success': false, 'response': response});
         }
     })
 }
@@ -25,7 +27,7 @@ function eventAlreadyExists(calendar_id, token, event_id, yes, no) {
             'Authorization': 'Bearer ' + token
         },
         'success': function (response) {
-            console.log('Event Already Exists?',response);
+            console.log('Event Already Exists?', response);
             if (response.items.length > 0) {
                 yes();
             } else {
@@ -47,12 +49,14 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
                 let calendar_id = items.calendar_to_use.id;
                 eventAlreadyExists(calendar_id, token, request.store_event.event_id, function () {
-                    console.log('Event Already Exists');
+                    console.log('Event already exists.');
+                    sendResponse({'success': true, 'message': 'Event already exists.'});
                 }, function () {
-                    createEvent(calendar_id, token, request.store_event.event_details);
+                    createEvent(calendar_id, token, request.store_event.event_details, sendResponse);
                 });
             });
         });
     }
+    return true;
 });
 
