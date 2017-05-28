@@ -27,19 +27,19 @@ function storeEvent() {
 }
 
 function collectEventFromPage() {
-    const attributes = [
-        'Game ID',
-        'Title',
-        'Description',
-        'Short Description',
-        'Long Description',
-        'Start Date & Time',
-        'End Date & Time',
-        'Location',
-        'Web Address for more information',
-        'Tournament',
-        'Cost'
-    ];
+    const attributes = {
+        'Game ID': 'text',
+        'Title': 'text',
+        'Description': 'text',
+        'Short Description': 'text',
+        'Long Description': 'text',
+        'Start Date & Time': 'text',
+        'End Date & Time': 'text',
+        'Location': 'text',
+        'Web Address for more information': 'link',
+        'Tournament': 'text',
+        'Cost': 'text'
+    };
 
     let event_details = getAttributeValues(attributes);
     event_details['URL'] = document.location.href;
@@ -52,9 +52,12 @@ function getAttributeValues(desired_attributes) {
     $('div.attr > div.name').each(function (index, element) {
         let attribute = $(element).text().trim().replace(/:$/, '').replace(/\s+/g, ' ');
         // console.log("Found " + attribute);
-        if (desired_attributes.includes(attribute)) {
-            attribute_values[attribute] = $(element).next().text().trim().replace(/\n/g, '');
-            // console.log(attribute + ': ' + attribute_values[attribute]);
+        if (desired_attributes[attribute]) {
+            if (desired_attributes[attribute] === 'text') {
+                attribute_values[attribute] = $(element).next().text().trim().replace(/\n/g, '');
+            } else if (desired_attributes[attribute] === 'link') {
+                attribute_values[attribute] = $(element).next().find('a').attr('href');
+            }
         }
     });
     return attribute_values;
