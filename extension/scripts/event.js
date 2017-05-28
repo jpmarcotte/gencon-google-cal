@@ -56,7 +56,11 @@ function getAttributeValues(desired_attributes) {
             if (desired_attributes[attribute] === 'text') {
                 attribute_values[attribute] = $(element).next().text().trim().replace(/\n/g, '');
             } else if (desired_attributes[attribute] === 'link') {
-                attribute_values[attribute] = $(element).next().find('a').attr('href');
+                let link = $(element).next().find('a').attr('href');
+                if (link !== 'http://') {
+                    // Gen Con uses only the scheme for empty links
+                    attribute_values[attribute] = link;
+                }
             }
         }
     });
