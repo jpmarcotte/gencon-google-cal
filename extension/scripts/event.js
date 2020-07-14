@@ -1,9 +1,9 @@
 const date_map = {
-    'Wednesday': '2019-07-31',
-    'Thursday': '2019-08-01',
-    'Friday': '2019-08-02',
-    'Saturday': '2019-08-03',
-    'Sunday': '2019-08-04'
+    'Wednesday': '2020-07-29',
+    'Thursday': '2020-07-30',
+    'Friday': '2020-07-31',
+    'Saturday': '2020-08-01',
+    'Sunday': '2020-08-02'
 };
 
 const time_zone = 'America/Indiana/Indianapolis';
