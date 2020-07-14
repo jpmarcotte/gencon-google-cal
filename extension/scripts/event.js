@@ -9,7 +9,7 @@ const date_map = {
 const time_zone = 'America/Indiana/Indianapolis';
 const short_time_zone = 'EDT';
 
-const date_re = /^(\w+) at +(\d+):(\d\d) ([AP])M$/;
+const date_re = /^(\w+), +(\d+):(\d\d) ([AP])M (\w+)$/;
 const cost_re = /^\$(\d+).(\d\d)$/;
 
 function storeEvent() {
@@ -103,8 +103,8 @@ function expandEventDetails(event_details) {
 
 function generateShortTimeframe(start, end) {
     console.log(date_re, start, end);
-    let [, , start_hour, start_minute, start_ampm] = date_re.exec(start);
-    let [, , end_hour, end_minute, end_ampm] = date_re.exec(end);
+    let [, , start_hour, start_minute, start_ampm, start_tz] = date_re.exec(start);
+    let [, , end_hour, end_minute, end_ampm, end_tz] = date_re.exec(end);
     start_ampm = start_ampm.toLowerCase();
     end_ampm = end_ampm.toLowerCase();
 
@@ -193,7 +193,7 @@ function generateEventDescription(event_details) {
 }
 
 function generateDateTime(time) {
-    let [, day_of_week, hour, minute, ampm] = date_re.exec(time);
+    let [, day_of_week, hour, minute, ampm, tz] = date_re.exec(time);
     let date = date_map[day_of_week];
-    return new Date(date + ' ' + hour + ':' + minute + ' ' + ampm + 'M' + ' ' + short_time_zone);
+    return new Date(date + ' ' + hour + ':' + minute + ' ' + ampm + 'M' + ' ' + tz);
 }
