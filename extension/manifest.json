@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Gen Con to Google Calendar",
 	"short_name": "Gen Con 2 GCal",
-	"version": "0.5.1",
+	"version": "0.5.2",
 	"key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzv7Q+AEAjII0Jz5xV6R7Xx1bZI7S7xTmZgTK4lL7NUvCiOc6P68JvawRBmpUgvZQMnX0JF3Snz3shvlsg3U+C6nZop9MvvuRxNBXi2tN5wvcktcNxIr490GiGh6L6HWtDal8b3HfchRWlzSBTABgffSv4IZ4ZeI7ACS2W14+UoAtfp9w/9kJzpgpymjY9+l7A+4U8+cEnQEwzKLH4qH7VeWEog0v6ZQ7wqmDAqOh2cIBAm8H3eGAZTxmzYr4XN3c/U7mYPSW4EuYmm8f2GphNN7+ottyvmcCtj8HzCLha/mSkFxvuTD5irL8PI2PbNFsq/6Btlvpr/gT9nOckidzuwIDAQAB",
 
 	"description": "Adds a button on Gen Con event pages to copy an event to your google calendar.",
