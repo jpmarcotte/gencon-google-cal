@@ -1,5 +1,5 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 	"name": "Gen Con to Google Calendar",
 	"short_name": "Gen Con 2 GCal",
 	"version": "0.5.4",
@@ -15,13 +15,11 @@
 	"author": "Jacques Marcotte",
 
 	"background": {
-		"scripts": [
-			"jquery-3.1.1.min.js",
-			"background.js"
-		]
+		"service_worker": "service_worker.js",
+		"type": "module"
 	},
 
-	"browser_action": {
+	"action": {
 		"default_icon": {
 			"16": "images/icon16.png",
 			"48": "images/icon48.png",
@@ -30,8 +28,6 @@
 		"default_title": "Gen Con to Google Calendar",
 		"default_popup": "popup.html"
 	},
-
-	"content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
 
 	"content_scripts": [
 		{
@@ -57,14 +53,25 @@
 
 	"permissions": [
 		"identity",
-		"storage",
+		"storage"
+	],
+
+	"host_permissions": [
 		"http://www.gencon.com/*",
 		"https://www.gencon.com/*",
 		"https://apis.google.com/*"
 	],
 
 	"web_accessible_resources": [
-		"scripts/*"
+		{
+			"resources": [
+				"scripts/*"
+			],
+			"matches": [
+				"http://www.gencon.com/*",
+				"https://www.gencon.com/*",
+				"https://apis.google.com/*"
+			]
+		}
 	]
-
 }
